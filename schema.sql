@@ -6,7 +6,7 @@ CREATE TABLE public.subscriber
 (
     id bigint NOT NULL DEFAULT nextval('subscriber_id_seq'::regclass),
     email character varying COLLATE pg_catalog."default",
-    password character varying(10) COLLATE pg_catalog."default",
+    password character varying(20) COLLATE pg_catalog."default",
     first_name character varying COLLATE pg_catalog."default",
     last_name character varying COLLATE pg_catalog."default",
     city character varying(25) COLLATE pg_catalog."default",
