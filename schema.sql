@@ -12,7 +12,7 @@ CREATE TABLE public.subscriber
     city character varying(25) COLLATE pg_catalog."default",
     state character varying(2) COLLATE pg_catalog."default",
     zip_code character varying COLLATE pg_catalog."default",
-    phone integer,
+    phone bigint,
     CONSTRAINT subscriber_key PRIMARY KEY (id)
 )
 WITH (
