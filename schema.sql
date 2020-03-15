@@ -78,6 +78,27 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.checkin_request
     OWNER to postgres;
-    
-    
+
+-- Table: public.responses
+
+-- DROP TABLE public.responses;
+
+CREATE TABLE public.responses
+(
+    id bigint NOT NULL DEFAULT nextval('responses_id_seq'::regclass),
+    response_code integer,
+    "timestamp" timestamp without time zone,
+    checkin_id bigint NOT NULL DEFAULT nextval('responses_checkin_id_seq'::regclass),
+    CONSTRAINT responses_checkin_id_fkey FOREIGN KEY (checkin_id)
+        REFERENCES public.checkin_request (checkin_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.responses
+    OWNER to postgres;
    
