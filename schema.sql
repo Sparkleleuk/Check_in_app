@@ -34,7 +34,7 @@ CREATE TABLE public.registered_user
     last_name character varying COLLATE pg_catalog."default",
     nickname character varying COLLATE pg_catalog."default",
     year_of_birth integer,
-    phone integer,
+    phone bigint,
     city character varying(25) COLLATE pg_catalog."default",
     state character varying(2) COLLATE pg_catalog."default",
     zip_code character varying COLLATE pg_catalog."default",
