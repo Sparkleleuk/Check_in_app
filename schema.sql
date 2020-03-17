@@ -60,7 +60,7 @@ CREATE TABLE public.check_in
     frequency character varying(20) COLLATE pg_catalog."default",
     schedule time with time zone,
     response_id bigint NOT NULL DEFAULT nextval('check_in_response_id_seq'::regclass),
-    response_code integer,
+    response_code integer REFERENCES response_ref(response_code),
     response_time timestamp with time zone,
     subscriber_id bigint,
     reg_user_id bigint,
