@@ -23,6 +23,7 @@ TABLESPACE pg_default;
 ALTER TABLE public.subscriber
     OWNER to postgres;
     
+    
 -- Table: public.registered_user
 
 -- DROP TABLE public.registered_user;
@@ -48,25 +49,26 @@ TABLESPACE pg_default;
 ALTER TABLE public.registered_user
     OWNER to postgres;
     
--- Table: public.checkin_request
+-- Table: public.check_in
 
--- DROP TABLE public.checkin_request;
+-- DROP TABLE public.check_in;
 
-CREATE TABLE public.checkin_request
+CREATE TABLE public.check_in
 (
     relationship character varying(20) COLLATE pg_catalog."default",
-    message character varying COLLATE pg_catalog."default",
+    checkin_message character varying COLLATE pg_catalog."default",
     frequency character varying(20) COLLATE pg_catalog."default",
     schedule time with time zone,
-    subscriber_id bigint NOT NULL DEFAULT nextval('subscriber_to_registered_user_subscriber_id_seq'::regclass),
-    reg_user_id bigint NOT NULL DEFAULT nextval('subscriber_to_registered_user_reg_user_id_seq'::regclass),
-    checkin_id bigint NOT NULL DEFAULT nextval('checkin_request_checkin_id_seq'::regclass),
-    CONSTRAINT checkin_request_key PRIMARY KEY (checkin_id),
-    CONSTRAINT subscriber_to_registered_user_reg_user_id_fkey FOREIGN KEY (reg_user_id)
+    response_id bigint NOT NULL DEFAULT nextval('check_in_response_id_seq'::regclass),
+    response_code integer,
+    response_time timestamp with time zone,
+    subscriber_id bigint,
+    reg_user_id bigint,
+    CONSTRAINT check_in_reg_user_id_fkey FOREIGN KEY (reg_user_id)
         REFERENCES public.registered_user (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT subscriber_to_registered_user_subscriber_id_fkey FOREIGN KEY (subscriber_id)
+    CONSTRAINT check_in_subscriber_id_fkey FOREIGN KEY (subscriber_id)
         REFERENCES public.subscriber (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
@@ -76,29 +78,22 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.checkin_request
+ALTER TABLE public.check_in
     OWNER to postgres;
+    
+-- Table: public.response_ref
 
--- Table: public.responses
+-- DROP TABLE public.response_ref;
 
--- DROP TABLE public.responses;
-
-CREATE TABLE public.responses
+CREATE TABLE public.response_ref
 (
-    id bigint NOT NULL DEFAULT nextval('responses_id_seq'::regclass),
     response_code integer,
-    "timestamp" timestamp without time zone,
-    checkin_id bigint NOT NULL DEFAULT nextval('responses_checkin_id_seq'::regclass),
-    CONSTRAINT responses_checkin_id_fkey FOREIGN KEY (checkin_id)
-        REFERENCES public.checkin_request (checkin_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    description character varying COLLATE pg_catalog."default"
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.responses
+ALTER TABLE public.response_ref
     OWNER to postgres;
-   
