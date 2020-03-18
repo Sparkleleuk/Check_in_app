@@ -53,15 +53,14 @@ ALTER TABLE public.registered_user
 
 -- DROP TABLE public.check_in;
 
-CREATE TABLE public.check_in
+CREATE TABLE public.relationship
 (
+    id bigint NOT NULL DEFAULT nextval('registered_user_id_seq'::regclass),
+
     relationship character varying(20) COLLATE pg_catalog."default",
     checkin_message character varying COLLATE pg_catalog."default",
     frequency character varying(20) COLLATE pg_catalog."default",
     schedule time with time zone,
-    response_id bigint NOT NULL DEFAULT nextval('check_in_response_id_seq'::regclass),
-    response_code integer REFERENCES response_ref(response_code),
-    response_time timestamp with time zone,
     subscriber_id bigint,
     reg_user_id bigint,
     CONSTRAINT check_in_reg_user_id_fkey FOREIGN KEY (reg_user_id)
@@ -80,6 +79,15 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.check_in
     OWNER to postgres;
+    
+CREATE TABLE public.request
+(
+    relationship_id REFERENCES relationship(id),
+    sent_time timestamp with time zone,
+    response_id bigint NOT NULL DEFAULT nextval('check_in_response_id_seq'::regclass),
+    response_code integer REFERENCES response_ref(response_code),
+    response_time timestamp with time zone
+)
     
 -- Table: public.response_ref
 
